@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Currency Converter</title>
+  <meta name="description" content="A real-time currency converter built with HTML, CSS, and JavaScript." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-mesh"></div>
+
+  <main class="container">
+    <header class="header">
+      <h1 class="title">Currency Converter</h1>
+      <p class="subtitle">Real-time exchange rates</p>
+      <div id="last-updated" class="last-updated"></div>
+    </header>
+
+    <div class="card">
+      <div class="converter-grid">
+        <div class="currency-block">
+          <label class="block-label">From</label>
+          <div class="currency-select-wrap">
+            <span id="flag-from" class="flag">🇺🇸</span>
+            <select id="from-currency" class="currency-select"></select>
+          </div>
+          <input id="from-amount" class="amount-input" type="number" value="1" min="0" step="any" placeholder="Amount" />
+        </div>
+
+        <button id="swap-btn" class="swap-btn" aria-label="Swap currencies">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22" height="22">
+            <path d="M7 16V4m0 0L3 8m4-4 4 4"/>
+            <path d="M17 8v12m0 0 4-4m-4 4-4-4"/>
+          </svg>
+        </button>
+
+        <div class="currency-block">
+          <label class="block-label">To</label>
+          <div class="currency-select-wrap">
+            <span id="flag-to" class="flag">🇪🇺</span>
+            <select id="to-currency" class="currency-select"></select>
+          </div>
+          <div id="to-amount" class="amount-result">—</div>
+        </div>
+      </div>
+
+      <div id="rate-display" class="rate-display hidden">
+        <div class="rate-line">
+          <span id="rate-text" class="rate-text"></span>
+        </div>
+        <div id="rate-bar-wrap" class="rate-bar-wrap">
+          <div id="rate-bar" class="rate-bar"></div>
+        </div>
+      </div>
+
+      <button id="convert-btn" class="convert-btn">Convert</button>
+
+      <div id="loading" class="loading hidden">Fetching rates…</div>
+      <div id="error-msg" class="error-msg hidden"></div>
+    </div>
+
+    <div class="popular-section">
+      <h2 class="popular-title">Popular Pairs</h2>
+      <div class="popular-grid" id="popular-grid"></div>
+    </div>
+
+    <p class="disclaimer">Powered by the Frankfurter API · Rates updated daily</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

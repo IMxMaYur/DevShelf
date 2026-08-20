@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator</title>
+  <meta name="description" content="A premium glassmorphism calculator built with HTML, CSS, and JavaScript." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <main class="wrapper">
+    <div class="calculator" id="calculator">
+      <div class="display">
+        <div id="expression" class="expression"></div>
+        <div id="result" class="result">0</div>
+      </div>
+
+      <div class="keypad">
+        <button class="key key-func" id="key-ac" data-action="clear">AC</button>
+        <button class="key key-func" id="key-sign" data-action="sign">+/−</button>
+        <button class="key key-func key-back" id="key-back" data-action="backspace">⌫</button>
+        <button class="key key-op" id="key-div" data-action="operator" data-op="÷">÷</button>
+
+        <button class="key key-num" id="key-7" data-action="digit" data-val="7">7</button>
+        <button class="key key-num" id="key-8" data-action="digit" data-val="8">8</button>
+        <button class="key key-num" id="key-9" data-action="digit" data-val="9">9</button>
+        <button class="key key-op" id="key-mul" data-action="operator" data-op="×">×</button>
+
+        <button class="key key-num" id="key-4" data-action="digit" data-val="4">4</button>
+        <button class="key key-num" id="key-5" data-action="digit" data-val="5">5</button>
+        <button class="key key-num" id="key-6" data-action="digit" data-val="6">6</button>
+        <button class="key key-op" id="key-sub" data-action="operator" data-op="−">−</button>
+
+        <button class="key key-num" id="key-1" data-action="digit" data-val="1">1</button>
+        <button class="key key-num" id="key-2" data-action="digit" data-val="2">2</button>
+        <button class="key key-num" id="key-3" data-action="digit" data-val="3">3</button>
+        <button class="key key-op" id="key-add" data-action="operator" data-op="+">+</button>
+
+        <button class="key key-num key-wide" id="key-0" data-action="digit" data-val="0">0</button>
+        <button class="key key-num" id="key-dot" data-action="decimal">.</button>
+        <button class="key key-eq" id="key-eq" data-action="equals">=</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

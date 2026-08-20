@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Web App</title>
+  <meta name="description" content="A stunning weather app with real-time data, built with HTML, CSS, and JavaScript." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="theme-default">
+  <div class="weather-bg" id="weather-bg">
+    <div class="particle" id="p1"></div>
+    <div class="particle" id="p2"></div>
+    <div class="particle" id="p3"></div>
+  </div>
+
+  <main class="container">
+    <div class="search-section">
+      <h1 class="app-title">WeatherNow</h1>
+      <div class="search-bar">
+        <input id="city-input" class="city-input" type="text" placeholder="Search city or ZIP code..." />
+        <button id="search-btn" class="search-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <button id="location-btn" class="location-btn" aria-label="Use my location" title="Use my location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><path d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <p>Fetching weather data…</p>
+    </div>
+
+    <div id="error-msg" class="error-msg hidden"></div>
+
+    <div id="weather-card" class="weather-card hidden">
+      <div class="main-info">
+        <div class="location-info">
+          <h2 id="city-name" class="city-name"></h2>
+          <p id="country" class="country"></p>
+          <p id="local-time" class="local-time"></p>
+        </div>
+        <div class="weather-icon-wrap">
+          <div id="weather-icon" class="weather-icon"></div>
+          <p id="weather-desc" class="weather-desc"></p>
+        </div>
+      </div>
+
+      <div class="temp-section">
+        <div id="temperature" class="temperature"></div>
+        <div class="unit-toggle">
+          <button id="btn-c" class="unit-btn active" onclick="toggleUnit('C')">°C</button>
+          <button id="btn-f" class="unit-btn" onclick="toggleUnit('F')">°F</button>
+        </div>
+        <div id="feels-like" class="feels-like"></div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card" id="stat-humidity">
+          <div class="stat-icon">💧</div>
+          <div class="stat-value" id="humidity-val">--</div>
+          <div class="stat-label">Humidity</div>
+        </div>
+        <div class="stat-card" id="stat-wind">
+          <div class="stat-icon">💨</div>
+          <div class="stat-value" id="wind-val">--</div>
+          <div class="stat-label">Wind</div>
+        </div>
+        <div class="stat-card" id="stat-vis">
+          <div class="stat-icon">👁️</div>
+          <div class="stat-value" id="vis-val">--</div>
+          <div class="stat-label">Visibility</div>
+        </div>
+        <div class="stat-card" id="stat-pressure">
+          <div class="stat-icon">🌡️</div>
+          <div class="stat-value" id="pressure-val">--</div>
+          <div class="stat-label">Pressure</div>
+        </div>
+      </div>
+
+      <div class="sun-row">
+        <div class="sun-item">🌅 <span id="sunrise">--</span></div>
+        <div class="sun-divider">|</div>
+        <div class="sun-item">🌇 <span id="sunset">--</span></div>
+      </div>
+    </div>
+
+    <div id="demo-note" class="demo-note">
+      <strong>Note:</strong> This app uses the Open-Meteo API (free, no key needed). Enter a city above to get real weather data!
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quote Generator</title>
+  <meta name="description" content="A beautiful daily quote generator with sharing features, built with HTML, CSS, and JavaScript." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="canvas-bg" id="canvas-bg"></div>
+
+  <main class="container">
+    <h1 class="app-title">Quote of the Moment</h1>
+
+    <div class="quote-card" id="quote-card">
+      <div class="quote-decoration top-left">"</div>
+      <div class="category-badge" id="category-badge">Wisdom</div>
+      <blockquote id="quote-text" class="quote-text">
+        The only way to do great work is to love what you do.
+      </blockquote>
+      <div class="quote-author" id="quote-author">— Steve Jobs</div>
+      <div class="quote-decoration bottom-right">"</div>
+    </div>
+
+    <div class="action-row">
+      <button id="btn-favorite" class="action-btn btn-fav" aria-label="Favorite">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span>Save</span>
+      </button>
+      <button id="btn-copy" class="action-btn btn-copy" aria-label="Copy quote">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span>Copy</span>
+      </button>
+      <button id="btn-tweet" class="action-btn btn-tweet" aria-label="Share on Twitter">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span>Share</span>
+      </button>
+      <button id="btn-new" class="action-btn btn-new" aria-label="New quote">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        <span>New Quote</span>
+      </button>
+    </div>
+
+    <div class="category-filter">
+      <span class="filter-label">Filter by:</span>
+      <div class="category-chips" id="category-chips"></div>
+    </div>
+
+    <div class="favorites-section" id="favorites-section">
+      <h2 class="favorites-title">⭐ Saved Quotes</h2>
+      <div id="favorites-list" class="favorites-list"></div>
+    </div>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

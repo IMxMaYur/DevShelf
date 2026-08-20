@@ -1,0 +1,142 @@
+/* ── Text-to-Speech – style.css ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #080b14;
+  --card: rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.08);
+  --text: #f1f5f9;
+  --muted: #64748b;
+  --accent: #38bdf8;
+  --accent2: #818cf8;
+  --t: 0.25s cubic-bezier(.4,0,.2,1);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  display: flex; justify-content: center;
+  padding: 2.5rem 1rem;
+}
+
+/* Animated waves */
+.bg-waves { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.wave {
+  position: absolute; width: 200%; left: -50%;
+  border-radius: 40%;
+  animation: wave-anim 15s ease-in-out infinite alternate;
+  opacity: 0.06;
+}
+.wave-1 { height: 300px; bottom: -80px; background: linear-gradient(135deg, #38bdf8, #818cf8); animation-duration: 12s; }
+.wave-2 { height: 250px; bottom: -120px; background: linear-gradient(135deg, #818cf8, #c084fc); animation-duration: 18s; animation-delay: -4s; }
+.wave-3 { height: 200px; bottom: -160px; background: linear-gradient(135deg, #c084fc, #f472b6); animation-duration: 24s; animation-delay: -8s; }
+@keyframes wave-anim { from { transform: translateX(-5%) rotate(0deg); } to { transform: translateX(5%) rotate(2deg); } }
+
+.container { position: relative; z-index: 1; width: 100%; max-width: 560px; display: flex; flex-direction: column; gap: 1.5rem; }
+
+/* Header */
+.header { text-align: center; }
+.logo-wrap { display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-bottom: 0.5rem; }
+.logo-icon {
+  width: 50px; height: 50px; border-radius: 14px;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  display: flex; align-items: center; justify-content: center; color: #080b14;
+}
+.app-title { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #38bdf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { color: var(--muted); font-size: 0.9rem; }
+
+/* Card */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 24px; padding: 1.75rem; backdrop-filter: blur(24px);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  display: flex; flex-direction: column; gap: 1.25rem;
+}
+
+/* Textarea */
+.textarea-wrap { position: relative; }
+.text-input {
+  width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1rem 1.1rem; padding-bottom: 2rem;
+  color: var(--text); font-family: inherit; font-size: 1rem; line-height: 1.6;
+  resize: vertical; outline: none; transition: border-color var(--t);
+}
+.text-input:focus { border-color: var(--accent); }
+.text-input::placeholder { color: var(--muted); }
+.char-counter { position: absolute; bottom: 0.6rem; right: 0.9rem; font-size: 0.75rem; color: var(--muted); }
+
+/* Presets */
+.presets { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.preset-btn {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  color: var(--muted); padding: 0.4rem 0.85rem; border-radius: 999px;
+  font-family: inherit; font-size: 0.8rem; cursor: pointer; transition: all var(--t);
+}
+.preset-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); }
+
+/* Voice controls */
+.voice-controls { display: flex; flex-direction: column; gap: 1rem; }
+.control-group { display: grid; grid-template-columns: 130px 1fr; align-items: center; gap: 0.75rem; }
+.control-label { font-size: 0.85rem; color: var(--muted); }
+.slider-val { color: var(--accent); font-weight: 600; margin-left: 0.4rem; }
+.voice-select {
+  background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.5rem 0.75rem;
+  color: var(--text); font-family: inherit; font-size: 0.875rem; outline: none; cursor: pointer;
+}
+.voice-select option { background: #13141f; }
+
+.slider { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 999px; background: rgba(255,255,255,0.1); outline: none; cursor: pointer; }
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  cursor: pointer; transition: transform var(--t);
+  box-shadow: 0 4px 12px rgba(56,189,248,0.4);
+}
+.slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+/* Visualizer */
+.visualizer {
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  height: 60px; padding: 0.5rem 0;
+}
+.vis-bar {
+  width: 6px; border-radius: 999px;
+  background: linear-gradient(180deg, #38bdf8, #818cf8);
+  height: 8px; opacity: 0.35;
+  transition: height 0.1s ease, opacity 0.3s;
+}
+.vis-bar.active { opacity: 1; }
+@keyframes vis-pulse { 0%,100%{height:8px;} 50%{height:var(--h,30px);} }
+
+/* Playback controls */
+.playback-controls { display: flex; align-items: center; justify-content: center; gap: 1rem; }
+.ctrl-btn {
+  border: none; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--t);
+}
+.ctrl-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-play {
+  width: 68px; height: 68px;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  color: #080b14;
+  box-shadow: 0 8px 24px rgba(56,189,248,0.4);
+}
+.btn-play:not(:disabled):hover { box-shadow: 0 12px 32px rgba(56,189,248,0.55); transform: scale(1.05); }
+.btn-stop, .btn-pause {
+  width: 48px; height: 48px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+  color: var(--muted);
+}
+.btn-stop:not(:disabled):hover, .btn-pause:not(:disabled):hover { background: rgba(255,255,255,0.12); color: var(--text); }
+
+/* Status */
+.status-msg { text-align: center; font-size: 0.875rem; color: var(--muted); min-height: 1.25em; }
+.status-msg.speaking { color: var(--accent); animation: pulse-text 1.5s ease-in-out infinite alternate; }
+@keyframes pulse-text { from { opacity: 0.7; } to { opacity: 1; } }
+
+@media (max-width: 480px) { .control-group { grid-template-columns: 1fr; } }

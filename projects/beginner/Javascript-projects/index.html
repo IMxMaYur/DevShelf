@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JavaScript Projects Hub</title>
+  <meta name="description" content="A collection of 8 premium JavaScript projects built with HTML, CSS and JavaScript." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #07080f;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --text: #f1f5f9;
+      --muted: #64748b;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      padding: 3rem 1.25rem;
+    }
+
+    .bg-glow {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 40% at 20% 0%, rgba(129,140,248,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(244,114,182,0.1) 0%, transparent 60%);
+    }
+
+    .container { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+
+    .hero { text-align: center; margin-bottom: 3.5rem; }
+    .hero-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--muted); margin-bottom: 1rem; }
+    .hero-title {
+      font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 900; letter-spacing: -2px; line-height: 1.05;
+      background: linear-gradient(135deg, #818cf8 0%, #c084fc 35%, #f472b6 70%, #fb923c 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    .hero-sub { color: var(--muted); font-size: 1.05rem; max-width: 480px; margin: 0 auto; line-height: 1.6; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 1.75rem;
+      backdrop-filter: blur(20px);
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 0.85rem;
+      transition: transform 0.25s cubic-bezier(.4,0,.2,1), box-shadow 0.25s, border-color 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .project-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--c1, #818cf8), var(--c2, #f472b6));
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .project-card:hover { transform: translateY(-5px); box-shadow: 0 20px 48px rgba(0,0,0,0.4); border-color: rgba(255,255,255,0.15); }
+    .project-card:hover::before { opacity: 0.06; }
+
+    .card-inner { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 0.85rem; flex: 1; }
+
+    .card-num { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); }
+    .card-icon { font-size: 2.5rem; }
+    .card-title { font-size: 1.25rem; font-weight: 700; }
+    .card-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; flex: 1; }
+
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-size: 0.72rem; padding: 0.2rem 0.65rem; border-radius: 999px;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .card-cta {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.875rem; font-weight: 600; margin-top: 0.25rem;
+      background: linear-gradient(135deg, var(--c1, #818cf8), var(--c2, #f472b6));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .footer { text-align: center; margin-top: 3.5rem; color: var(--muted); font-size: 0.85rem; }
+
+    @media (max-width: 600px) { .hero-title { font-size: 2.2rem; } }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <div class="container">
+    <header class="hero">
+      <p class="hero-label">Portfolio Collection</p>
+      <h1 class="hero-title">JavaScript Projects</h1>
+      <p class="hero-sub">8 premium web applications crafted with pure HTML, CSS &amp; JavaScript — click any card to open the project.</p>
+    </header>
+
+    <main class="grid">
+
+      <a href="./01-counter-app/index.html" class="project-card" style="--c1:#7c5cfc;--c2:#fc5c7d;" id="card-counter">
+        <div class="card-inner">
+          <div class="card-num">Project 01</div>
+          <div class="card-icon">🔢</div>
+          <div class="card-title">Counter App</div>
+          <div class="card-desc">Interactive counter with step size control, circular progress ring, action history, and keyboard shortcuts.</div>
+          <div class="card-tags"><span class="tag">Increment</span><span class="tag">Progress Ring</span><span class="tag">History</span></div>
+          <div class="card-cta">Open Project →</div>
+        </div>
+      </a>
+
+      <a href="./02-todo-list/index.html" class="project-card" style="--c1:#818cf8;--c2:#34d399;" id="card-todo">
+        <div class="card-inner">
+          <div class="card-num">Project 02</div>
+          <div class="card-icon">✅</div>
+          <div class="card-title">To-Do List App</div>
+          <div class="card-desc">Full-featured task manager with priority levels, filter tabs, progress bar, and localStorage persistence.</div>
+          <div class="card-tags"><span class="tag">LocalStorage</span><span class="tag">Filters</span><span class="tag">Priority</span></div>
+          <div class="card-cta">Open Project →</div>
+        </div>
+      </a>
+
+      <a href="./03-calculator/index.html" class="project-card" style="--c1:#6366f1;--c2:#a855f7;" id="card-calc">
+        <div class="card-inner">
+          <div class="card-num">Project 03</div>
+          <div class="card-icon">🧮</div>
+          <div class="card-title">Calculator</div>
+          <div class="card-desc">Glass-morphism calculator with operator chaining, expression display, keyboard support, and error handling.</div>
+          <div class="card-tags"><span class="tag">Glassmorphism</span><span class="tag">Keyboard</span><span class="tag">Chaining</span></div>
+          <div class="card-cta">Open Project →</div>
+        </div>
+      </a>
+
+      <a href="./04-digital-clock/index.html" class="project-card" style="--c1:#38bdf8;--c2:#34d399;" id="card-clock">
+        <div class="card-inner">
+          <div class="card-num">Project 04</div>
+          <div class="card-icon">🕐</div>
+          <div class="card-title">Digital Clock</div>
+          <div class="card-desc">Animated space-themed clock with starfield, day/year progress bars, 12/24h toggle, and contextual greetings.</div>
+          <div class="card-tags"><span class="tag">Starfield</span><span class="tag">12/24h</span><span class="tag">Progress</span></div>
+          <div class="card-cta">Open Project →</div>
+        </div>
+      </a>
+
+      <a href="./05-weather-app/index.html" class="project-card" style="--c1:#38bdf8;--c2:#818cf8;" id="card-weather">
+        <div class="card-inner">
+          <div class="card-num">Project 05</div>
+          <div class="card-icon">🌤️</div>
+          <div class="card-title">Weather Web App</div>
+          <div class="card-desc">Real-time weather using Open-Meteo API. Search any city, use geolocation, toggle °C/°F, view wind, humidity & more.</div>
+          <div class="card-tags"><span class="tag">Open-Meteo API</span><span class="tag">Geolocation</span><span class="tag">°C/°F</span></div>
+          <div class="card-cta">Open Project →</div>
+        </div>
+      </a>
+
+      <a href="./06-currency-converter/index.html" class="project-card" style="--c1:#f59e0b;--c2:#10b981;" id="card-currency">
+        <div class="card-inner">
+          <div class="card-num">Project 06</div>
+          <div class="card-icon">💱</div>
+          <div class="card-title">Currency Converter</div>
+          <div class="card-desc">Live exchange rates via Frankfurter API. 30 currencies with flag emojis, one-click swap, and popular pair shortcuts.</div>
+          <div class="card-tags"><span class="tag">Frankfurter API</span><span class="tag">30 Currencies</span><span class="tag">Swap</span></div>
+          <div class="card-cta">Open Project →</div>
+        </div>
+      </a>
+
+      <a href="./07-quote-generator/index.html" class="project-card" style="--c1:#c084fc;--c2:#f472b6;" id="card-quote">
+        <div class="card-inner">
+          <div class="card-num">Project 07</div>
+          <div class="card-icon">💬</div>
+          <div class="card-title">Quote Generator</div>
+          <div class="card-desc">25+ curated quotes across 5 categories. Save favorites, copy to clipboard, share on X/Twitter, with smooth fade transitions.</div>
+          <div class="card-tags"><span class="tag">Favorites</span><span class="tag">Categories</span><span class="tag">Share</span></div>
+          <div class="card-cta">Open Project →</div>
+        </div>
+      </a>
+
+      <a href="./08-text-to-speech/index.html" class="project-card" style="--c1:#38bdf8;--c2:#c084fc;" id="card-tts">
+        <div class="card-inner">
+          <div class="card-num">Project 08</div>
+          <div class="card-icon">🎙️</div>
+          <div class="card-title">Text-to-Speech App</div>
+          <div class="card-desc">Web Speech API powered TTS with voice selection, speed/pitch/volume sliders, animated visualizer, and preset texts.</div>
+          <div class="card-tags"><span class="tag">Web Speech API</span><span class="tag">Visualizer</span><span class="tag">Multi-Voice</span></div>
+          <div class="card-cta">Open Project →</div>
+        </div>
+      </a>
+
+    </main>
+
+    <footer class="footer">
+      <p>Built with ❤️ using pure HTML, CSS &amp; JavaScript</p>
+    </footer>
+  </div>
+</body>
+</html>

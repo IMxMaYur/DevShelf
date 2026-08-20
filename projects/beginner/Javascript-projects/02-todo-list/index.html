@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do List App</title>
+  <meta name="description" content="A beautiful, feature-rich to-do list app built with HTML, CSS, and JavaScript." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-gradient"></div>
+
+  <main class="container">
+    <header class="header">
+      <div class="header-top">
+        <div>
+          <h1 class="title">My Tasks</h1>
+          <p id="date-display" class="date"></p>
+        </div>
+        <div class="stats-badge">
+          <span id="tasks-done">0</span>/<span id="tasks-total">0</span>
+          <span class="stats-label">done</span>
+        </div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+    </header>
+
+    <div class="input-section">
+      <div class="input-row">
+        <input id="task-input" class="task-input" type="text" placeholder="Add a new task..." maxlength="100" />
+        <select id="priority-select" class="priority-select">
+          <option value="low">🟢 Low</option>
+          <option value="medium" selected>🟡 Medium</option>
+          <option value="high">🔴 High</option>
+        </select>
+        <button id="add-btn" class="add-btn" aria-label="Add task">+</button>
+      </div>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="active">Active</button>
+      <button class="filter-btn" data-filter="completed">Completed</button>
+    </div>
+
+    <ul id="task-list" class="task-list"></ul>
+
+    <div class="empty-state" id="empty-state">
+      <div class="empty-icon">✨</div>
+      <p>No tasks yet. Add one above!</p>
+    </div>
+
+    <div class="footer-actions">
+      <span id="remaining-count" class="remaining-text">0 tasks remaining</span>
+      <button id="clear-completed" class="clear-btn">Clear Completed</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
