@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker | Manage Your Finances</title>
+  <meta name="description" content="A beautiful and functional expense tracker to manage your personal finances, track income and expenses, and visualize spending patterns." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="logo">
+          <span class="logo-icon">💰</span>
+          <span class="logo-text">FinTrack</span>
+        </div>
+        <p class="header-subtitle">Your personal finance dashboard</p>
+      </div>
+      <div class="header-right">
+        <div class="date-display" id="current-date"></div>
+        <button class="btn-add-transaction" id="open-modal-btn">
+          <span>+</span> Add Transaction
+        </button>
+      </div>
+    </header>
+
+    <!-- Summary Cards -->
+    <section class="summary-section" aria-label="Financial Summary">
+      <div class="summary-card balance-card">
+        <div class="card-label">Current Balance</div>
+        <div class="card-amount balance-amount" id="balance">$0.00</div>
+        <div class="card-footer">
+          <span class="balance-indicator" id="balance-indicator">Neutral</span>
+        </div>
+        <div class="card-bg-icon">⚖️</div>
+      </div>
+      <div class="summary-card income-card">
+        <div class="card-label">Total Income</div>
+        <div class="card-amount income-amount" id="total-income">$0.00</div>
+        <div class="card-footer">
+          <span class="trend-up">↑</span> <span id="income-count">0 transactions</span>
+        </div>
+        <div class="card-bg-icon">📈</div>
+      </div>
+      <div class="summary-card expense-card">
+        <div class="card-label">Total Expenses</div>
+        <div class="card-amount expense-amount" id="total-expenses">$0.00</div>
+        <div class="card-footer">
+          <span class="trend-down">↓</span> <span id="expense-count">0 transactions</span>
+        </div>
+        <div class="card-bg-icon">📉</div>
+      </div>
+    </section>
+
+    <!-- Main content: Chart + Transactions -->
+    <div class="main-content">
+
+      <!-- Chart Panel -->
+      <aside class="chart-panel">
+        <h2 class="panel-title">Spending by Category</h2>
+        <div class="chart-wrapper">
+          <canvas id="expense-chart" width="260" height="260" aria-label="Expense distribution donut chart"></canvas>
+          <div class="chart-center-label">
+            <span id="chart-center-amount">$0</span>
+            <span class="chart-center-text">Spent</span>
+          </div>
+        </div>
+        <div class="chart-legend" id="chart-legend">
+          <p class="no-data-text">No expense data yet</p>
+        </div>
+
+        <!-- Savings rate -->
+        <div class="savings-section">
+          <div class="savings-label">
+            <span>Savings Rate</span>
+            <span id="savings-rate-pct">0%</span>
+          </div>
+          <div class="savings-bar-bg">
+            <div class="savings-bar-fill" id="savings-bar" style="width: 0%"></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Transactions Panel -->
+      <section class="transactions-panel">
+        <div class="transactions-header">
+          <h2 class="panel-title">Transactions</h2>
+          <div class="filter-controls">
+            <select id="filter-type" class="filter-select" aria-label="Filter by type">
+              <option value="all">All</option>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+            <select id="filter-category" class="filter-select" aria-label="Filter by category">
+              <option value="all">All Categories</option>
+            </select>
+            <button class="btn-clear-all" id="clear-all-btn" title="Clear all transactions">🗑 Clear All</button>
+          </div>
+        </div>
+
+        <div class="transactions-list" id="transactions-list" aria-live="polite" aria-label="Transactions list">
+          <!-- Empty state -->
+          <div class="empty-state" id="empty-state">
+            <div class="empty-icon">🧾</div>
+            <h3>No Transactions Yet</h3>
+            <p>Add your first transaction to get started!</p>
+            <button class="btn-add-first" id="add-first-btn">+ Add Transaction</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">Add Transaction</h2>
+        <button class="modal-close" id="close-modal-btn" aria-label="Close modal">✕</button>
+      </div>
+
+      <!-- Type toggle -->
+      <div class="type-toggle">
+        <button class="type-btn active" id="type-income" data-type="income">
+          <span>📈</span> Income
+        </button>
+        <button class="type-btn" id="type-expense" data-type="expense">
+          <span>📉</span> Expense
+        </button>
+      </div>
+
+      <form id="transaction-form" novalidate>
+        <div class="form-group">
+          <label for="tx-description">Description</label>
+          <input
+            type="text"
+            id="tx-description"
+            placeholder="e.g. Monthly salary, Grocery shopping..."
+            maxlength="60"
+            autocomplete="off"
+          />
+          <span class="input-error" id="desc-error">Please enter a description.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tx-amount">Amount ($)</label>
+            <input
+              type="number"
+              id="tx-amount"
+              placeholder="0.00"
+              min="0.01"
+              step="0.01"
+            />
+            <span class="input-error" id="amount-error">Please enter a valid amount.</span>
+          </div>
+          <div class="form-group">
+            <label for="tx-date">Date</label>
+            <input type="date" id="tx-date" />
+            <span class="input-error" id="date-error">Please enter a date.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="tx-category">Category</label>
+          <select id="tx-category" aria-label="Transaction category"></select>
+        </div>
+
+        <div class="form-group">
+          <label for="tx-note">Note (optional)</label>
+          <input
+            type="text"
+            id="tx-note"
+            placeholder="Additional details..."
+            maxlength="100"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancel-btn">Cancel</button>
+          <button type="submit" class="btn-submit" id="submit-btn">Add Transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toast-container" aria-live="assertive"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

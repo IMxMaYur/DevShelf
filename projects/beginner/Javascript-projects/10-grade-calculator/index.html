@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GradeIQ | Student Grade Calculator</title>
+  <meta name="description" content="A smart student grade calculator to track subjects, compute GPA, percentage, and generate your report card." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Decorative background -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="app-container">
+
+    <!-- ── Header ── -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="brand-logo">
+          <span class="brand-icon">🎓</span>
+          <div>
+            <h1 class="brand-name">GradeIQ</h1>
+            <p class="brand-tagline">Smart Grade Calculator</p>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="grading-system-wrap">
+          <label for="grading-system" class="sr-only">Grading System</label>
+          <select id="grading-system" class="system-select" aria-label="Select grading system">
+            <option value="percentage">Percentage System</option>
+            <option value="gpa4">GPA (4.0 Scale)</option>
+            <option value="gpa10">GPA (10.0 Scale)</option>
+          </select>
+        </div>
+        <button class="btn-primary" id="open-modal-btn">
+          <span class="btn-icon">+</span> Add Subject
+        </button>
+        <button class="btn-icon-only" id="print-btn" title="Print Report Card" aria-label="Print report card">🖨️</button>
+        <button class="btn-icon-only" id="clear-btn" title="Clear All" aria-label="Clear all subjects">🗑️</button>
+      </div>
+    </header>
+
+    <!-- ── GPA / Summary Banner ── -->
+    <section class="gpa-banner" aria-label="Overall performance summary">
+      <div class="gpa-ring-wrap">
+        <canvas id="gpa-ring-canvas" width="160" height="160" aria-label="GPA ring chart"></canvas>
+        <div class="gpa-ring-center">
+          <span class="gpa-value" id="gpa-display">—</span>
+          <span class="gpa-label" id="gpa-label-text">GPA</span>
+        </div>
+      </div>
+
+      <div class="banner-stats">
+        <div class="banner-stat">
+          <span class="stat-num" id="stat-avg">—</span>
+          <span class="stat-desc">Average %</span>
+        </div>
+        <div class="banner-divider"></div>
+        <div class="banner-stat">
+          <span class="stat-num" id="stat-grade">—</span>
+          <span class="stat-desc">Letter Grade</span>
+        </div>
+        <div class="banner-divider"></div>
+        <div class="banner-stat">
+          <span class="stat-num" id="stat-subjects">0</span>
+          <span class="stat-desc">Subjects</span>
+        </div>
+        <div class="banner-divider"></div>
+        <div class="banner-stat">
+          <span class="stat-num" id="stat-highest">—</span>
+          <span class="stat-desc">Highest</span>
+        </div>
+        <div class="banner-divider"></div>
+        <div class="banner-stat">
+          <span class="stat-num" id="stat-lowest">—</span>
+          <span class="stat-desc">Lowest</span>
+        </div>
+      </div>
+
+      <div class="banner-badge" id="performance-badge">
+        <span class="badge-emoji" id="badge-emoji">🏆</span>
+        <span class="badge-text" id="badge-text">Add subjects to begin</span>
+      </div>
+    </section>
+
+    <!-- ── Main Content ── -->
+    <div class="main-grid">
+
+      <!-- Grade Distribution -->
+      <aside class="dist-panel card">
+        <h2 class="panel-title">Grade Distribution</h2>
+        <div class="dist-bars" id="dist-bars">
+          <!-- Rendered by JS -->
+        </div>
+        <div class="dist-legend">
+          <div class="dist-leg-item"><span class="leg-dot" style="background:#22d3a0"></span> A (90–100)</div>
+          <div class="dist-leg-item"><span class="leg-dot" style="background:#3b82f6"></span> B (80–89)</div>
+          <div class="dist-leg-item"><span class="leg-dot" style="background:#f59e0b"></span> C (70–79)</div>
+          <div class="dist-leg-item"><span class="leg-dot" style="background:#f97316"></span> D (60–69)</div>
+          <div class="dist-leg-item"><span class="leg-dot" style="background:#f55b7e"></span> F (&lt;60)</div>
+        </div>
+
+        <!-- Credits summary -->
+        <div class="credits-box" id="credits-box" style="display:none">
+          <h3 class="credits-title">Credit Summary</h3>
+          <div class="credits-row">
+            <span>Total Credits</span>
+            <strong id="total-credits-val">0</strong>
+          </div>
+          <div class="credits-row">
+            <span>Weighted GPA</span>
+            <strong id="weighted-gpa-val">—</strong>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Subjects Table -->
+      <section class="subjects-panel card">
+        <div class="subjects-header">
+          <h2 class="panel-title">Subjects</h2>
+          <div class="subjects-controls">
+            <input type="search" id="search-input" placeholder="🔍  Search subject…" class="search-box" aria-label="Search subjects" />
+            <select id="sort-select" class="sort-select" aria-label="Sort subjects">
+              <option value="default">Sort: Default</option>
+              <option value="name">Sort: A–Z</option>
+              <option value="highest">Sort: Highest</option>
+              <option value="lowest">Sort: Lowest</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Empty state -->
+        <div class="empty-state" id="empty-state">
+          <div class="empty-anim">📖</div>
+          <h3>No Subjects Added</h3>
+          <p>Add your first subject to calculate your grades.</p>
+          <button class="btn-primary" id="add-first-btn">+ Add Subject</button>
+        </div>
+
+        <!-- Subjects list -->
+        <div class="subjects-list" id="subjects-list" aria-live="polite" aria-label="Subjects list"></div>
+      </section>
+
+    </div><!-- /.main-grid -->
+
+  </div><!-- /.app-container -->
+
+  <!-- ── Add Subject Modal ── -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-heading" id="modal-heading">Add Subject</h2>
+        <button class="modal-close-btn" id="close-modal-btn" aria-label="Close">✕</button>
+      </div>
+
+      <form id="subject-form" novalidate>
+        <div class="form-group">
+          <label for="subj-name">Subject Name</label>
+          <input type="text" id="subj-name" placeholder="e.g. Mathematics, Physics…" maxlength="50" autocomplete="off" />
+          <span class="field-error" id="name-error">Please enter a subject name.</span>
+        </div>
+
+        <!-- Grade input mode toggle -->
+        <div class="input-mode-toggle">
+          <button type="button" class="mode-btn active" id="mode-marks" data-mode="marks">Marks</button>
+          <button type="button" class="mode-btn" id="mode-letter" data-mode="letter">Letter Grade</button>
+        </div>
+
+        <!-- Marks mode -->
+        <div id="marks-section">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="subj-obtained">Marks Obtained</label>
+              <input type="number" id="subj-obtained" placeholder="85" min="0" step="0.1" />
+              <span class="field-error" id="obtained-error">Enter valid marks.</span>
+            </div>
+            <div class="form-group">
+              <label for="subj-total">Total Marks</label>
+              <input type="number" id="subj-total" placeholder="100" min="1" step="0.1" value="100" />
+              <span class="field-error" id="total-error">Enter valid total.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Letter grade mode -->
+        <div id="letter-section" style="display:none">
+          <div class="form-group">
+            <label for="subj-letter">Letter Grade</label>
+            <div class="grade-pills" id="grade-pills">
+              <button type="button" class="grade-pill" data-grade="A+">A+</button>
+              <button type="button" class="grade-pill" data-grade="A">A</button>
+              <button type="button" class="grade-pill" data-grade="A-">A-</button>
+              <button type="button" class="grade-pill" data-grade="B+">B+</button>
+              <button type="button" class="grade-pill" data-grade="B">B</button>
+              <button type="button" class="grade-pill" data-grade="B-">B-</button>
+              <button type="button" class="grade-pill" data-grade="C+">C+</button>
+              <button type="button" class="grade-pill" data-grade="C">C</button>
+              <button type="button" class="grade-pill" data-grade="C-">C-</button>
+              <button type="button" class="grade-pill" data-grade="D">D</button>
+              <button type="button" class="grade-pill" data-grade="F">F</button>
+            </div>
+            <input type="hidden" id="subj-letter" />
+            <span class="field-error" id="letter-error">Please select a grade.</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="subj-credits">Credits / Weight <span class="optional-tag">(optional)</span></label>
+            <input type="number" id="subj-credits" placeholder="3" min="0.5" max="10" step="0.5" />
+          </div>
+          <div class="form-group">
+            <label for="subj-semester">Semester <span class="optional-tag">(optional)</span></label>
+            <input type="text" id="subj-semester" placeholder="e.g. Sem 1" maxlength="20" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="cancel-btn">Cancel</button>
+          <button type="submit" class="btn-primary" id="submit-btn">Add Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container" aria-live="assertive"></div>
+
+  <!-- Print Report Card (hidden, shown on print) -->
+  <div class="print-report" id="print-report">
+    <div class="report-header">
+      <h1>🎓 GradeIQ — Report Card</h1>
+      <p id="report-date"></p>
+    </div>
+    <div class="report-summary" id="report-summary"></div>
+    <table class="report-table" id="report-table">
+      <thead>
+        <tr><th>#</th><th>Subject</th><th>Marks</th><th>Percentage</th><th>Grade</th><th>Credits</th></tr>
+      </thead>
+      <tbody id="report-tbody"></tbody>
+    </table>
+    <div class="report-footer">Generated by GradeIQ</div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
